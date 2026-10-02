@@ -1,0 +1,91 @@
+# Özellik haritası — ÜRETİLDİ (baglam-derin-tarama), ÖLÇÜLMÜŞ olgulardan çıkarıldı.
+# Kaynak: .context/01-mimari.md (ÖLÇÜLDÜ) ve dai/ altında doğrudan doğrulanan
+# dosya/dizin varlığı.
+versiyon: 1
+ozellikler:
+  - ad: sayfa-tabanli-yonlendirme
+    aciklama: >-
+      Framework ve router yoktur; her .php dosyası kendi başına bir
+      sayfa/uç noktadır ve header.php/footer.php/init.php parçalarını
+      include_once ile birleştirir (örnek: index.php sadece header.php,
+      slider.php, footer.php'i include eder).
+    dosyalar:
+      - dai/index.php
+      - dai/header.php
+      - dai/footer.php
+      - dai/init.php
+      - dai/slider.php
+  - ad: veritabani-baglantisi-mysqli
+    aciklama: >-
+      connect.php ham mysqli_connect ile doğrudan MySQL bağlantısı açar
+      (host=localhost, db=admin, user=root, şifre boş); ortak bir
+      config/DI katmanı yoktur.
+    dosyalar:
+      - dai/connect.php
+  - ad: veri-erisim-siniflari-pdo
+    aciklama: >-
+      dai/data/ altındaki AdminClass (class.php) ve AdminUsersClass
+      (class.users.php) PDO ile aynı admin veritabanına ayrı ayrı
+      bağlanır; her ikisi de bağlantı bilgilerini kendi içinde tekrar
+      tanımlar.
+    dosyalar:
+      - dai/data/
+  - ad: kimlik-dogrulama-ve-rol-yonlendirme
+    aciklama: >-
+      login.php password_verify ile şifreyi doğrular ve $_SESSION'a
+      login/mail/user_id/role/firstname/lastname yazar; role==1 olan
+      kullanıcı admin_panel.php'e, diğerleri index2.php'e yönlendirilir.
+      logout.php, register.php ve update_password.php aynı oturum
+      akışının parçasıdır.
+    dosyalar:
+      - dai/login.php
+      - dai/logout.php
+      - dai/register.php
+      - dai/update_password.php
+      - dai/admin_panel.php
+      - dai/index2.php
+  - ad: oturum-korumali-sayfa-erisimi
+    aciklama: >-
+      AdminClass::__construct oturum yoksa header('location ./login.php')
+      çağırarak sayfayı korumaya çalışır; AdminUsersClass üzerinden
+      erişilen kullanıcı sayfaları da aynı oturum denetimine dayanır.
+    dosyalar:
+      - dai/data/
+      - dai/user_panel.php
+      - dai/user_dashboard.php
+      - dai/user_tools.php
+      - dai/user_tools2.php
+      - dai/user_admin.php
+  - ad: girdi-temizleme-ve-sorgu-hazirlama
+    aciklama: >-
+      AdminClass ve AdminUsersClass içinde tekrarlanan getSecurity()
+      metodu htmlspecialchars + stripslashes uygular; SQL tarafı
+      pdoInsert() ile hazırlanmış ifadeler (prepare/execute) kullanır,
+      ancak merkezi bir çağrı noktası yoktur.
+    dosyalar:
+      - dai/data/
+  - ad: admin-yonetim-paneli
+    aciklama: >-
+      role==1 kullanıcılar için admin_panel.php üzerinden erişilen
+      yönetim, araç ve kullanıcı yönetimi sayfaları.
+    dosyalar:
+      - dai/admin_panel.php
+      - dai/admin_tools.php
+      - dai/admin_user.php
+  - ad: vendor-on-yuz-kutuphaneleri
+    aciklama: >-
+      İstemci tarafı kodun büyük çoğunluğu dai/plugins/ ve dai/dist/
+      altında taşınan üçüncü taraf kütüphanelerdir (bootstrap, jquery,
+      datatables, select2, summernote, chart.js vb. bir AdminLTE şablon
+      seti); elle yazılmış uygulama kodu değildir.
+    dosyalar:
+      - dai/plugins/
+      - dai/dist/
+  - ad: kullanilmayan-sablon-galerisi
+    aciklama: >-
+      dai/pages/ altındaki .html dosyaları (calendar.html, widgets.html,
+      kanban.html vb.) şablon galerisinden kalan statik örnek
+      sayfalardır; index.php/admin_panel.php bu dosyaları include_once
+      ile referans etmez.
+    dosyalar:
+      - dai/pages/

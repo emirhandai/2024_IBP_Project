@@ -1,0 +1,19 @@
+versiyon: 1
+proje: emirhandai/2024_IBP_Project
+uretildi_tarafindan: kurulum-ajani
+dil: javascript
+profil: node
+taban_dal: yoystro/gecit-47be576e5f35
+dosyalar:
+  - yol: 00-proje-ozeti.md
+    baslik: Proje özeti
+    tip: proje-ozeti
+    kaynak: beyan
+  - yol: 01-mimari.md
+    baslik: Mimari
+    tip: mimari
+    kaynak: olculdu
+  - yol: 07-tuzaklar.md
+    baslik: Tuzaklar
+    tip: tuzaklar
+    kaynak: olculdu
